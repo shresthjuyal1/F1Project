@@ -1,0 +1,88 @@
+---
+title: "STA302 PROJECT"
+author: "Shresth Juyal"
+date: "2023-06-18"
+output:
+  word_document: default
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##**Introduction Section**
+
+## Research Question
+
+What is the impact of the number of laps and tyre degradation lap time in Formula 1, and how can linear regression be used to model and predict this relationship?
+
+## Introduction of the Study 
+
+In the high-stakes world of Formula 1, tire degradation can be a key factor in determining whether you will finish the race first or last. During a 58-lap race, tires slowly start to wear out and lose grip, this leads to drivers not being able to drive through corners as fast as they could before and as a result, affects their lap time. Understanding the tires is a crucial area of development for all the teams. It is essential for teams to understand and effectively model tire degradation to predict lap times, optimize their strategy, and gain a competitive advantage. 
+
+We can use linear regression to predict and model tire degradation. By using linear regression in the context of Formula 1, we can analyze the relationship between lap number and lap time and model the tire degradation.
+
+The purpose of the research is to analyze and validate the effectiveness of applying linear regression to predict tire degradation. The results of this study can provide teams with insightful knowledge of the tires, this would enable them to make informed strategy calls. 
+
+Several studies have also tried to model tire degradation using several techniques. A study done by a student at the Luleå University of Technology models tire degradation using the Bayesian method, support vector machines, artificial NNs, logistic regression, decision trees, and a Fuzzy system. Each method mentioned has its advantages and disadvantages. A big issue with this study was the lack of specificity and the lack of data; the study does not seem to have a lot of data points, which makes it harder to create an accurate model.
+
+
+## Methods
+
+Data Collection: To conduct this research, the data must be accurate, reliable, and exhaustive.The “Formula 1 Race Data” on Kaggle contains contains several types of data such as tables describing constructors, race drivers, lap times, and pit stops. The dataset used in this study is “lapTimes.csv”. This spreadsheet contains 6 columns, which represent the raceID, driverID, #lap, #position, time(in minutes), and time(in milliseconds). This study mainly use the lap time time and #lap to determine the rate of degradation of the tires. 
+
+Variable Selection: The lap number will serve as the predictor variable since they give a good indication of how much the tires have aged and degraded. And lap time can be the response variable because it represents the performance of the tires; the lower the lap time, the better the performance. Analyzing the relationship between predictor and response variables will help us observe the  change in lap time throughout a race to model tire degradation. 
+
+To model the relationship between the predictor and response variable, the ideal statistical tool to use would be linear regression. Linear regression can examine the linear relationship between the lap number (predictor variable) and lap time (response variable). A linear regression model to the data will allow us to evaluate and quantify the effect of the lap number on tire degradation. The coefficients of the linear regression model will give us an insight into the properties of the tire and help us interpret the relationship between lap number and tire degradation. A positive β_0 value would mean that as the number of laps increases, the lap time increases as well. A steep gradient would suggest that the rate of tire degradation is high
+
+Model Validation:I will use several techniques to validate my model to determine its accuracy. The first approach for model validation is using the R^2 and R_adj^2 values to determine the goodness-of-fit of the model. This measures the proportion of the total sample variability in the Y axis is explained by the regression model. So, in the context of this study, a high R^2 would indicate that the model fits the data well and that the lap number is a significant predictor of the lap time. Another technique that will be used to validate the model is the splitting of the data. In this study, there will be a training set from which the linear model will be made and a testing set. The model developed from the training set will also be used on the testing set to evaluate the model’s accuracy on new data. This technique will also help in generalizing the model to new lap times.
+
+Some assumptions made while implementing linear regression are assuming linearity, independence, and common error variance (homoskedasticity).  The independence assumption assumes that the performance of each lap is unaffected by the previous lap. And lastly, the common error variance assumption assumes that the variability of each lap timing is constant throughout the race. 
+
+Model Violation and Diagnostics: To verify whether all our assumptions of linearity, constant variance, and uncorrelated errors are true, we can use three main types of residual scatter plots: Residuals versus predictor plots, Residuals versus fitted values plots, and Normal Quantile-Quantile (QQ) plots. If there are no discernible patterns seen in the residual plot and the residuals are scattered around zero, then that means assumptions hold. 
+
+##Results 
+
+During a Formula 1 race weekend, Pirelli, the tire supplier of F1, allows teams to choose from 3 different compounds: soft, medium, and hard. The soft compound tires, marked in red, offer the most grip at the cost of longevity. The medium compound tires offer a more balanced approach with medium grip and medium longevity. And the hard compound tires on the other hand offer the least grip but are the most durable. Due to the unique properties of these tires, they must all have different tire models as well. We will model the tire degradation of each compound using linear regression.
+
+Description of Data: On 27th March 2011, the annual Australian Grand Prix was held at Albert Park Circuit. The thrilling race saw Red Bull’s Sebastian Vettel finish 1st while McLaren’s Lewis Hamilton finished a close 2nd. Let’s look at the visualization of Lewis Hamilton’s race.
+
+
+
+## Description of Data
+```{r pressure, echo=FALSE}
+library(ggplot2)
+library(readxl)
+
+trainingset <- read_excel("trainingset.xlsx")
+ggplot(trainingset, aes(x = lap, y = milliseconds)) + geom_point() +labs(x = "Lap number", y = "laptime (milliseconds)") +ggtitle("Laptime vs Lap number") +ylim(90000, 94700)
+```
+
+This scatter plot visualizes the relation between the lap number and lap time. As mentioned before the predictor variable, which is the lap number shows the progression of the race. And the response variable, which is the lap time reflects the performance of the tires at any given lap. There are a total of 58 observations in our training set since that’s how many laps the race lasted. This scatter plot helps us visualize and spot any patterns. 
+
+First, there are 3 distinct linear patterns in the scatterplot. This can be explained through pitstops. During the race, Hamilton made 2 pitstops. He started the race on hard compound tires and then pitted lap 16 for another set of hard tires and then later pitted on lap 36 for the soft compound tire. The 3 distinct linear patterns represent the 3 sets of tires Hamilton was on during the race. Modeling these 3 linear patterns will give us an insight into the rate of tire degradation throughout the race. 
+
+There are some outliers in this scatterplot. For instance, the very first outlier is on lap 1. This makes sense since lap 1 is the start of the race, therefore Hamilton started the lap from a standstill which slowed his lap time, and he was busy fighting with other drivers which further slowed him down. The next outlier is on lap 32, this can be explained through driver error. On lap 32, Hamilton went wide and traveled across the gravel which increased his lap time.  And lastly, the final outlier in on the lap 40 when Hamilton was passing lapped cars; this also increased his lap time. 
+
+## Presenting the Analysis Process and the Results
+To model the 3 distinct stints Hamilton did on hard, hard and soft compounds respectively. We must look at these stints individually.
+
+```{r new, echo=TRUE}
+stint1 <- read_excel("stint1.xlsx")
+model1 <- lm(milliseconds ~ lap, data = stint1)
+summary(model1)
+
+stint2 <- read_excel("stint2.xlsx")
+model2 <- lm(milliseconds ~ lap, data = stint2)
+summary(model2)
+
+stint3 <- read_excel("stint3.xlsx")
+model3 <- lm(milliseconds ~ lap, data = stint3)
+summary(model3)
+
+
+```
+check check
