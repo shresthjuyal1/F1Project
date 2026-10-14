@@ -1,0 +1,2 @@
+# Keep helper scripts out of the GitHub language stats
+scripts/** linguist-documentation
